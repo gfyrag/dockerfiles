@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Starting RPCBind
+echo -n "Starting rpcbind: "
+umask 077
+start-stop-daemon -S -q -p /var/run/rpcbind.pid --exec /usr/bin/rpcbind
+
+[ -x /usr/sbin/rpc.statd ] || exit 0
+[ -x /usr/sbin/rpc.nfsd ] || exit 0
+[ -x /usr/sbin/rpc.mountd ] || exit 0
+[ -x /usr/sbin/exportfs ] || exit 0
+
+# Don't fail if /etc/exports doesn't exist; create a bare-bones version and continue.
+[ -r /etc/exports ] || \
+    { touch /etc/exports && chmod u+rw,g+r,o+r /etc/exports ; } || \
+    { echo "/etc/exports does not exist" ; exit 0 ; }
+    
+mkdir -p /var/lib/nfs/sm
+mkdir -p /var/lib/nfs/sm.bak
+mkdir -p /var/lock/subsys
+touch /var/lib/nfs/etab
+touch /var/lib/nfs/rmtab
+touch /var/lib/nfs/state
+touch /var/lib/nfs/xtab
+
+echo -n "Starting NFS services: "
+rpc.statd -p $RPC_STATD_PORT
+/usr/sbin/exportfs -r
+echo "done"
+
+echo -n "Starting NFS daemon: "
+rpc.nfsd 2
+echo "done"
+
+echo -n "Starting NFS mountd: "
+rpc.mountd -p $RPC_MOUNTD_PORT
+echo "done"
+touch /var/lock/subsys/nfs
+
+# Block
+tail -f /var/log/subsys/nfs

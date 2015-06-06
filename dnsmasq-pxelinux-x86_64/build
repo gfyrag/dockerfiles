@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker build -t gfyrag/dnsmasq-pxelinux-builder:x86_64 -f Dockerfile.builder .
+docker run gfyrag/dnsmasq-pxelinux-builder:x86_64 > rootfs.tar
+docker build -t gfyrag/dnsmasq-pxelinux:x86_64 .
+rm rootfs.tar

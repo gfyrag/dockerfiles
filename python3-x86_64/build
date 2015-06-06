@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker build -t gfyrag/python3-builder:x86_64 -f Dockerfile.builder .
+docker run gfyrag/python3-builder:x86_64 > rootfs.tar
+docker build -t gfyrag/python3:x86_64 .
+rm rootfs.tar

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker build -t gfyrag/nfs-builder:arm -f Dockerfile.builder .
+docker run gfyrag/nfs-builder:arm > rootfs.tar
+docker build -t gfyrag/nfs:arm .
+rm rootfs.tar

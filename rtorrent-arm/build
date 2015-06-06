@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker build -t gfyrag/rtorrent-builder:arm -f Dockerfile.builder .
+docker run gfyrag/rtorrent-builder:arm > rootfs.tar
+docker build -t gfyrag/rtorrent:arm .
+rm rootfs.tar
