@@ -1,7 +1,6 @@
 #!/bin/bash
 
-[ -d gogs ] || {
-	curl -L -O https://github.com/gogits/gogs/releases/download/v0.6.15/linux_amd64.zip
-	unzip linux_amd64.zip
-}
+docker build -t gfyrag/gogs-builder:x86_64 -f Dockerfile.builder .
+docker run gfyrag/gogs-builder:x86_64 > rootfs.tar
 docker build -t gfyrag/gogs:x86_64 .
+rm rootfs.tar

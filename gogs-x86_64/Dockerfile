@@ -1,4 +1,6 @@
-FROM gfyrag/busybox:x86_64
+FROM scratch
 MAINTAINER Geoffrey Ragot <geoffrey.ragot@gmail.com>
-ADD gogs /gogs
-ENTRYPOINT ["/gogs/gogs"]
+ADD rootfs.tar /
+# Gogs require this env variables
+ENV USER root
+ENTRYPOINT ["/usr/share/gogs/gogs"]
