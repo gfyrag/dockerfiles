@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -f loganalyzer-4.1.3.tar.gz ] || {
+	curl -O http://download.adiscon.com/loganalyzer/loganalyzer-4.1.3.tar.gz
+}
+docker build -t gfyrag/loganalyzer:x86_64 .
