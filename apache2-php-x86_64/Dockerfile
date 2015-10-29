@@ -11,6 +11,7 @@ RUN sed -i 's,#LoadModule slotmem_shm_module modules/mod_slotmem_shm.so,LoadModu
 RUN sed -i 's,#LoadModule cgid_module modules/mod_cgid.so,LoadModule cgid_module modules/mod_cgid.so,g' /etc/apache2/httpd.conf
 RUN sed -i 's,#LoadModule actions_module modules/mod_actions.so,LoadModule actions_module modules/mod_actions.so,g' /etc/apache2/httpd.conf
 RUN sed -i 's,#LoadModule rewrite_module modules/mod_rewrite.so,LoadModule rewrite_module modules/mod_rewrite.so,g' /etc/apache2/httpd.conf
+RUN sed -i 's,#LoadModule ssl_module modules/mod_ssl.so,LoadModule ssl_module modules/mod_ssl.so,g' /etc/apache2/httpd.conf
 RUN sed -i 's,#Scriptsock .*,Scriptsock /var/run/cgid.sock,g' /etc/apache2/httpd.conf
 
 # Enable apcu extension (TODO : other method with buildroot?)
