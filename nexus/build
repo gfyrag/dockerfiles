@@ -1,0 +1,15 @@
+#!/bin/sh
+
+ARCH=${ARCH:-x86_64}
+NEXUS_VERSION=${NEXUS_VERSION:-2.8.0}
+
+[ -f nexus-$NEXUS_VERSION-bundle.zip ] || {
+	curl -kLO http://www.sonatype.org/downloads/nexus-$NEXUS_VERSION-bundle.zip
+}
+
+[ -d nexus ] || {
+	unzip nexus-$NEXUS_VERSION-bundle.zip -d nexus
+	mv nexus/nexus-* nexus/nexus
+}
+
+docker build -t gfyrag/nexus:x86_64 .
